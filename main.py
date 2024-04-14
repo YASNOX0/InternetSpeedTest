@@ -4,7 +4,6 @@ import speedtest
 
 
 def main(page: Page):
-
     # region Page Settings
     page.platform = PagePlatform.WINDOWS
     page.title = "Internet speed test"
@@ -22,7 +21,7 @@ def main(page: Page):
     }
     # endregion
 
-    # region Progressbar Sett
+    # region Progressbar config
     pb_speedTest1 = ProgressBar(
         width=400,
         bgcolor=colors.CYAN_ACCENT_400,
@@ -45,7 +44,7 @@ def main(page: Page):
     )
     # endregion
 
-    # region Lines(Text) handle
+    # region Lines(Text) config
     t_line1 = Text(
         value="> press start...",
         font_family="SourceCodePro-BlackItalic",
@@ -126,7 +125,19 @@ def main(page: Page):
     st = speedtest.Speedtest()
 
     def showSpeedContainer(e):
-        speedContainer.visible = True
+        ct_testProgress1.opacity = 0
+        pb_speedTest1.value = None
+        ct_testProgress2.opacity = 0
+        pb_speedTest2.value = None
+        t_line1.value = ""
+        t_line2.value = ""
+        t_line3.value = ""
+        t_line4.value = ""
+        t_line5.value = ""
+        t_line6.value = ""
+        t_line7.value = ""
+        t_line8.value = ""
+
         speedContainer.width = 1000
         speedContainer.height = 400
         t_line1.value = "> Calculating download speed, please wait..."
@@ -166,7 +177,21 @@ def main(page: Page):
 
         t_line8.value = ("> task completed successfully\n\n"
                          ">> App developer : SAADEN Yassin")
+
         speedContainer.update()
+
+        ic_playOrRestart.icon = icons.RESTART_ALT_OUTLINED
+        page.update()
+
+    # endregion
+
+    # region Play or restart button config
+    ic_playOrRestart = IconButton(
+        icon=icons.PLAY_CIRCLE_FILL_OUTLINED,
+        icon_size=50,
+        icon_color="blue",
+        on_click=showSpeedContainer
+    )
     # endregion
 
     page.add(
@@ -187,12 +212,7 @@ def main(page: Page):
             ]
         ),
         speedContainer,
-        IconButton(
-            icon=icons.PLAY_CIRCLE_FILL_OUTLINED,
-            icon_size=50,
-            icon_color="blue",
-            on_click=showSpeedContainer
-        )
+        ic_playOrRestart
     )
 
 
